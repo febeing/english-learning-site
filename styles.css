@@ -217,6 +217,10 @@ textarea.input{resize:vertical;line-height:1.6}
 .vocab{display:flex;flex-wrap:wrap;gap:10px}
 .vocab .v{background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:9px 13px;font-size:13px}
 .vocab .v b{color:var(--gold-2);font-family:var(--serif);font-size:15px}
+.vocab .v.collect{cursor:pointer;transition:.18s}
+.vocab .v.collect:hover{border-color:var(--gold);color:var(--gold-2)}
+.vocab .v .plus{display:inline-block;margin-left:6px;color:var(--gold-2);font-weight:600}
+.news-source{margin-top:18px;padding-top:14px;border-top:1px dashed var(--border);font-size:12px;color:var(--text-3);letter-spacing:.3px}
 .grammar{font-size:14px;line-height:1.8;color:var(--text-2)}
 .grammar li{margin-left:18px;margin-bottom:6px}
 
@@ -235,6 +239,18 @@ textarea.input{resize:vertical;line-height:1.6}
 .quote-card .q{font-family:var(--serif);font-style:italic;font-size:18px;line-height:1.5}
 .quote-card .a{margin-top:12px;color:var(--gold-2);font-size:13px}
 .quote-card .e{margin-top:10px;font-size:13px;color:var(--text-2);line-height:1.6}
+
+/* ---------- 生词本 ---------- */
+.vocab-add{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end;margin-bottom:14px}
+.vocab-add .input{margin:0;flex:1;min-width:150px}
+.vocab-book{display:flex;flex-direction:column;gap:10px;margin-top:22px}
+.vb-item{display:flex;align-items:center;gap:16px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 18px;transition:.18s}
+.vb-item:hover{border-color:var(--gold)}
+.vb-word{font-family:var(--serif);font-size:19px;color:var(--gold-2);min-width:150px}
+.vb-mean{font-size:14px;color:var(--text);flex:1;line-height:1.5}
+.vb-note{font-size:12px;color:var(--text-3);margin-top:3px}
+.vb-del{margin-left:auto;color:var(--text-3);cursor:pointer;border:none;background:none;font-size:20px;line-height:1;transition:.18s}
+.vb-del:hover{color:var(--gold-2)}
 
 /* ---------- 打卡 ---------- */
 .checkin-top{display:flex;align-items:center;gap:26px;flex-wrap:wrap;margin-bottom:30px}
