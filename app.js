@@ -8,9 +8,10 @@ const LS = {
 const fmt = s => { s = Math.max(0, s | 0); const m = (s / 60) | 0; const x = s % 60; return `${m}:${x < 10 ? '0' : ''}${x}`; };
 const todayStr = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; };
 const dayIndex = len => Math.floor(new Date().setHours(0, 0, 0, 0) / 86400000) % len;
+const esc = s => String(s == null ? '' : s).replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
 
 /* ===================== 导航 ===================== */
-const VIEWS = { listening: '听力练习', slang: '每日俚语', news: '新闻拆解', quotes: '名人名言', checkin: '学习打卡' };
+const VIEWS = { listening: '听力练习', slang: '每日俚语', news: '新闻拆解', quotes: '经典书摘', vocab: '生词本', checkin: '学习打卡' };
 const sidebar = document.querySelector('.sidebar');
 $$('.nav-item').forEach(b => b.addEventListener('click', () => {
   const t = b.dataset.target;
@@ -209,7 +210,9 @@ function renderSlang(idx) {
     <div class="slang-word">${s.word}</div>
     <div class="slang-phon">${s.phon}</div>
     <div class="slang-mean">${s.mean}</div>
-    <div class="slang-eg"><div class="en">${s.en}</div><div class="zh">${s.zh}</div></div>`;
+    <div class="slang-eg"><div class="en">${s.en}</div><div class="zh">${s.zh}</div></div>
+    <button class="btn ghost small" id="slangCollect" style="margin-top:16px">＋ 收藏此俚语</button>`;
+  $('#slangCollect').onclick = () => addVocab(s.word, s.mean.replace(/<[^>]+>/g, ''), '俚语');
 }
 function renderSlangArchive() {
   $('#slangArchive').innerHTML = SLANGS.map((s, i) => `<div class="chip" data-i="${i}">${s.word}</div>`).join('');
@@ -231,12 +234,14 @@ function renderNews() {
         <p class="news-en">${n.en}</p>
         <p class="news-zh">${n.zh}</p>
         <div class="block-title">高频生词</div>
-        <div class="vocab">${n.vocab.map(v => `<span class="v"><b>${v.w}</b> ${v.m}</span>`).join('')}</div>
+        <div class="vocab">${n.vocab.map(v => `<span class="v collect" data-w="${esc(v.w)}" data-m="${esc(v.m)}" title="点击收藏到生词本"><b>${v.w}</b> ${esc(v.m)}<span class="plus">＋</span></span>`).join('')}</div>
         <div class="block-title">语法拆解</div>
-        <ul class="grammar">${n.grammar.map(g => `<li>${g}</li>`).join('')}</ul>
+        <ul class="grammar">${n.grammar.map(g => `<li>${esc(g)}</li>`).join('')}</ul>
+        <div class="news-source">来源：${esc(n.source ? n.source : '示例材料（非真实新闻，仅供练习格式演示）')}</div>
       </div></div>
     </div>`).join('');
   $$('#newsList .news-item').forEach(it => it.querySelector('.news-head').addEventListener('click', () => it.classList.toggle('open')));
+  $$('#newsList .collect').forEach(c => c.addEventListener('click', () => addVocab(c.dataset.w, c.dataset.m, '新闻')));
 }
 
 /* ===================== 名人名言 ===================== */
@@ -307,6 +312,54 @@ function renderDiaryHistory() {
   $('#diaryHistory').innerHTML = entries.length ? entries.map(([d, tx]) => `<div class="diary-entry"><div class="dt">${d}</div><div class="tx">${tx.replace(/</g, '&lt;')}</div></div>`).join('') : '<div style="color:var(--text-3);font-size:13px">还没有日记，写下第一篇吧。</div>';
 }
 
+/* ===================== 生词本 ===================== */
+let vocabBook = LS.get('el_vocab', []);
+function renderVocab() {
+  $('#vCount').textContent = vocabBook.length ? `共 ${vocabBook.length} 个词` : '';
+  if (!vocabBook.length) { $('#vocabBook').innerHTML = '<div style="color:var(--text-3);font-size:13px">还没有收藏生词，去「新闻拆解」点生词上的 ＋，或上方手动添加。</div>'; return; }
+  $('#vocabBook').innerHTML = vocabBook.map((w, i) => `
+    <div class="vb-item">
+      <div class="vb-word">${esc(w.word)}</div>
+      <div><div class="vb-mean">${esc(w.mean)}</div>${w.note ? `<div class="vb-note">${esc(w.note)}</div>` : ''}</div>
+      <button class="vb-del" data-i="${i}" title="删除">×</button>
+    </div>`).join('');
+  $$('#vocabBook .vb-del').forEach(b => b.addEventListener('click', () => { vocabBook.splice(+b.dataset.i, 1); LS.set('el_vocab', vocabBook); renderVocab(); }));
+}
+function addVocab(word, mean, from) {
+  word = (word || '').trim(); mean = (mean || '').trim();
+  if (!word || !mean) return;
+  if (vocabBook.some(v => v.word.toLowerCase() === word.toLowerCase())) { flashHint(`「${word}」已在生词本`); return; }
+  vocabBook.unshift({ word, mean, note: from ? `来自：${from}` : '' });
+  LS.set('el_vocab', vocabBook); renderVocab(); flashHint(`已收藏「${word}」`);
+}
+function flashHint(t) {
+  const el = $('#vCount'); const old = el.textContent; el.textContent = t;
+  setTimeout(() => { el.textContent = vocabBook.length ? `共 ${vocabBook.length} 个词` : old; }, 1600);
+}
+$('#vAdd').addEventListener('click', () => {
+  const word = $('#vWord').value.trim(), mean = $('#vMean').value.trim();
+  if (!word || !mean) { alert('请填写单词和释义'); return; }
+  addVocab(word, mean, $('#vNote').value.trim() ? `笔记：${$('#vNote').value.trim()}` : '');
+  $('#vWord').value = $('#vMean').value = $('#vNote').value = '';
+});
+function exportVocab(type) {
+  if (!vocabBook.length) { alert('生词本为空'); return; }
+  let content, mime, ext;
+  if (type === 'csv') {
+    const rows = [['word', 'meaning', 'note']].concat(vocabBook.map(w => [w.word, w.mean, w.note || '']));
+    content = '﻿' + rows.map(r => r.map(c => '"' + String(c).replace(/"/g, '""') + '"').join(',')).join('\r\n');
+    mime = 'text/csv'; ext = 'csv';
+  } else {
+    content = JSON.stringify(vocabBook, null, 2); mime = 'application/json'; ext = 'json';
+  }
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([content], { type: mime }));
+  a.download = `vocab-book.${ext}`; a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+}
+$('#vExportCsv').addEventListener('click', () => exportVocab('csv'));
+$('#vExportJson').addEventListener('click', () => exportVocab('json'));
+
 /* ===================== 初始化 ===================== */
 renderMaterialSelect();
 loadMaterial(0);
@@ -314,4 +367,5 @@ renderSlang(dayIndex(SLANGS.length));
 renderSlangArchive();
 renderNews();
 renderQuotes();
+renderVocab();
 renderCheckin();
