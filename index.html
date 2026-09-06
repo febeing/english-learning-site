@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lumen · 英语研习所</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Inter:wght@300;400;500;600&family=Noto+Serif+SC:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app">
+    <!-- 侧边栏 -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">L</div>
+        <div class="brand-text">
+          <div class="brand-name">Lumen</div>
+          <div class="brand-sub">英语研习所</div>
+        </div>
+      </div>
+      <nav class="nav">
+        <button class="nav-item active" data-target="listening">
+          <span class="nav-dot"></span>听力练习
+        </button>
+        <button class="nav-item" data-target="slang">
+          <span class="nav-dot"></span>每日俚语
+        </button>
+        <button class="nav-item" data-target="news">
+          <span class="nav-dot"></span>新闻拆解
+        </button>
+        <button class="nav-item" data-target="quotes">
+          <span class="nav-dot"></span>名人名言
+        </button>
+        <button class="nav-item" data-target="checkin">
+          <span class="nav-dot"></span>学习打卡
+        </button>
+      </nav>
+      <div class="sidebar-foot">
+        <span id="todayLabel"></span>
+      </div>
+    </aside>
+
+    <!-- 主区 -->
+    <main class="main">
+      <header class="topbar">
+        <button class="menu-toggle" id="menuToggle" aria-label="菜单">☰</button>
+        <div class="topbar-title" id="topTitle">听力练习</div>
+        <div class="topbar-quote" id="topQuote"></div>
+      </header>
+
+      <!-- 听力练习 -->
+      <section class="view active" id="listening">
+        <div class="view-head">
+          <h1>听力练习</h1>
+          <p class="view-desc">加入视频或音频，对照中英字幕，点击任意字幕行即可循环该句；也可手动设定 A / B 点循环某一段。支持本地文件与在线链接。</p>
+        </div>
+
+        <div class="material-bar">
+          <select id="materialSelect" class="select"></select>
+          <button class="btn ghost" id="addMaterialBtn">＋ 添加素材</button>
+        </div>
+
+        <div class="player-card">
+          <div class="media-wrap" id="mediaWrap"></div>
+          <div class="loop-bar">
+            <button class="btn small" id="setA">设 A 点</button>
+            <button class="btn small" id="setB">设 B 点</button>
+            <button class="btn small gold" id="clearLoop">清除循环</button>
+            <span class="loop-state" id="loopState">未设定循环段</span>
+            <span class="spacer"></span>
+            <label class="speed">倍速
+              <select id="speed" class="select mini">
+                <option>0.75</option><option selected>1</option><option>1.25</option><option>1.5</option><option>2</option>
+              </select>
+            </label>
+          </div>
+          <div class="transcript" id="transcript"></div>
+        </div>
+
+        <!-- 添加素材弹层 -->
+        <div class="modal" id="materialModal" hidden>
+          <div class="modal-card">
+            <h3>添加听力素材</h3>
+            <label>标题</label>
+            <input id="mTitle" class="input" placeholder="例如：TED 演讲片段" />
+            <label>类型</label>
+            <select id="mType" class="select">
+              <option value="audio">音频</option>
+              <option value="video">视频</option>
+            </select>
+            <label>媒体链接（URL）</label>
+            <input id="mUrl" class="input" placeholder="https://... 留空可仅用本地文件" />
+            <label>本地文件（优先于链接）</label>
+            <input id="mFile" type="file" accept="audio/*,video/*" class="input" />
+            <label>字幕（每行：开始秒,结束秒,英文,中文；可留空）</label>
+            <textarea id="mTranscript" class="input" rows="5" placeholder="0,3,Hello world,你好世界&#10;3,6,How are you,你好吗"></textarea>
+            <div class="modal-actions">
+              <button class="btn ghost" id="mCancel">取消</button>
+              <button class="btn gold" id="mSave">保存</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 每日俚语 -->
+      <section class="view" id="slang">
+        <div class="view-head">
+          <h1>每日俚语</h1>
+          <p class="view-desc">每天一个新的地道英语俚语，附释义与例句。积少成多，让表达更 native。</p>
+        </div>
+        <div class="slang-card" id="slangCard"></div>
+        <div class="row gap">
+          <button class="btn ghost" id="slangRandom">随机一个</button>
+          <button class="btn ghost" id="slangToday">回到今日</button>
+        </div>
+        <h3 class="sub-title">往期一览</h3>
+        <div class="chip-grid" id="slangArchive"></div>
+      </section>
+
+      <!-- 新闻拆解 -->
+      <section class="view" id="news">
+        <div class="view-head">
+          <h1>新闻拆解</h1>
+          <p class="view-desc">精选英语新闻，中英对照，拆解高频生词与语法点，把阅读变成积累。</p>
+        </div>
+        <div class="news-list" id="newsList"></div>
+      </section>
+
+      <!-- 名人名言 -->
+      <section class="view" id="quotes">
+        <div class="view-head">
+          <h1>名人名言</h1>
+          <p class="view-desc">每日一句英文名言，附中文释义与语境解读。</p>
+        </div>
+        <div class="quote-feature" id="quoteFeature"></div>
+        <div class="quote-grid" id="quoteGrid"></div>
+      </section>
+
+      <!-- 学习打卡 -->
+      <section class="view" id="checkin">
+        <div class="view-head">
+          <h1>学习打卡</h1>
+          <p class="view-desc">每天留下学习的痕迹：一键打卡，记录连续天数，并写下你的学习日记。</p>
+        </div>
+        <div class="checkin-top">
+          <div class="stat">
+            <div class="stat-num" id="streakNum">0</div>
+            <div class="stat-label">连续打卡（天）</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num" id="totalNum">0</div>
+            <div class="stat-label">累计打卡（天）</div>
+          </div>
+          <button class="btn gold big" id="checkinBtn">今日打卡</button>
+        </div>
+        <div class="calendar" id="calendar"></div>
+        <h3 class="sub-title">学习日记</h3>
+        <textarea id="diary" class="diary" placeholder="今天学到了什么？写下你的学习笔记……"></textarea>
+        <div class="row gap">
+          <button class="btn ghost" id="saveDiary">保存日记</button>
+          <span class="hint" id="diaryHint"></span>
+        </div>
+        <div class="diary-history" id="diaryHistory"></div>
+      </section>
+    </main>
+  </div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
