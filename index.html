@@ -31,7 +31,10 @@
           <span class="nav-dot"></span>新闻拆解
         </button>
         <button class="nav-item" data-target="quotes">
-          <span class="nav-dot"></span>名人名言
+          <span class="nav-dot"></span>经典书摘
+        </button>
+        <button class="nav-item" data-target="vocab">
+          <span class="nav-dot"></span>生词本
         </button>
         <button class="nav-item" data-target="checkin">
           <span class="nav-dot"></span>学习打卡
@@ -147,14 +150,34 @@
         <div class="news-list" id="newsList"></div>
       </section>
 
-      <!-- 名人名言 -->
+      <!-- 经典书摘 -->
       <section class="view" id="quotes">
         <div class="view-head">
-          <h1>名人名言</h1>
-          <p class="view-desc">每日一句英文名言，附中文释义与语境解读。</p>
+          <h1>经典书籍金句</h1>
+          <p class="view-desc">每日一句经典文学摘录，标注书名与作者，并附中文释义，于字里行间感受原典的笔力。</p>
         </div>
         <div class="quote-feature" id="quoteFeature"></div>
         <div class="quote-grid" id="quoteGrid"></div>
+      </section>
+
+      <!-- 生词本 -->
+      <section class="view" id="vocab">
+        <div class="view-head">
+          <h1>生词本</h1>
+          <p class="view-desc">把新闻、俚语里遇到的生词收进来，随时复习，并导出为 CSV / JSON 带到任意设备。</p>
+        </div>
+        <div class="vocab-add">
+          <input id="vWord" class="input" placeholder="单词 / 短语" />
+          <input id="vMean" class="input" placeholder="释义" />
+          <input id="vNote" class="input" placeholder="笔记（可选，如出处）" />
+          <button class="btn gold" id="vAdd">＋ 收藏</button>
+        </div>
+        <div class="row gap" style="margin-top:4px">
+          <button class="btn ghost small" id="vExportCsv">导出 CSV</button>
+          <button class="btn ghost small" id="vExportJson">导出 JSON</button>
+          <span class="hint" id="vCount"></span>
+        </div>
+        <div class="vocab-book" id="vocabBook"></div>
       </section>
 
       <!-- 学习打卡 -->
