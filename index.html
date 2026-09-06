@@ -118,6 +118,26 @@
               </div>
             </div>
 
+            <div class="ext-box">
+              <div class="ai-box-head">
+                <span class="ai-icon">🔗</span>
+                <span class="ai-title">外链 / YouTube 一键取音轨+字幕</span>
+                <span class="ai-badge">云端后端处理</span>
+              </div>
+              <p class="ai-desc">粘贴 YouTube 或支持媒体的链接，后端自动取音轨与原生字幕，并填到下方标题与字幕框。后端地址请先保存（默认占位请改成你的 Hugging Face Space 地址）。</p>
+              <label>后端地址（Hugging Face Space URL）</label>
+              <div class="ai-row">
+                <input id="extBackend" class="input" placeholder="https://your-space.hf.space" style="flex:1" />
+                <button class="btn ghost small" id="extBackendSave">保存</button>
+              </div>
+              <label>媒体链接（YouTube / 直链）</label>
+              <div class="ai-row">
+                <input id="extUrl" class="input" placeholder="https://www.youtube.com/watch?v=..." style="flex:1" />
+                <button class="btn gold small" id="extFetch">取音轨+字幕</button>
+              </div>
+              <div class="ai-status" id="extStatus"></div>
+            </div>
+
             <div class="modal-actions">
               <button class="btn ghost" id="mCancel">取消</button>
               <button class="btn gold" id="mSave">保存</button>
