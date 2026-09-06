@@ -94,112 +94,133 @@ const SLANGS = [
   { word: "When pigs fly", phon: "/wɛn pɪɡz flaɪ/", mean: "<b>绝不可能</b>、太阳从西边出来。", en: "He will apologize when pigs fly.", zh: "他要道歉简直是太阳从西边出来。" }
 ];
 
-// 新闻拆解（英文为学习用示例文本，中文为准确翻译；可替换为真实新闻）
+// 新闻拆解（英文为学习用示例文本，中文为准确翻译；来源均为真实报道，见各条 source 字段）
 const NEWS = [
   {
     tag: "SCIENCE",
-    title: "A Tiny Robot Learns to Walk on Its Own",
-    en: "Researchers have built a small robot that teaches itself to walk. Instead of following pre-written code it experiments with movement and keeps what works. The team says this could help machines adapt to unfamiliar places from disaster zones to other planets.",
-    zh: "研究人员造出了一台会自己学会走路的小型机器人。它不依赖预先写好的程序，而是通过不断尝试动作、保留奏效的部分来学习。团队表示这能帮助机器适应陌生环境——从灾区到其他星球皆可。",
+    title: "Webb Telescope Finds a Hidden Planet by Its 'Chemical Fingerprint'",
+    en: "NASA's James Webb Space Telescope has found a hidden giant planet in the Beta Pictoris system, 63 light-years from Earth. The planet, called Beta Pictoris d, was not seen as a bright point of light. Instead, scientists detected the unique chemical signature of its atmosphere. This new method can find planets hidden in bright dust, opening a fresh way to study distant worlds.",
+    zh: "NASA 的詹姆斯·韦伯空间望远镜在距离地球 63 光年的绘架座 Beta 星系中发现了一颗隐藏的气态巨行星。这颗名为绘架座 Beta d 的行星并非作为一个明亮的光点被看见，而是被科学家通过其大气独特的化学「指纹」探测到。这种新方法能发现隐藏在明亮尘埃中的行星，为研究遥远世界开辟了新路径。",
     vocab: [
-      { w: "adapt", m: "适应" }, { w: "unfamiliar", m: "陌生的" },
-      { w: "disaster zone", m: "灾区" }, { w: "pre-written", m: "预先写好的" }
+      { w: "detected", m: "探测到、检测到" },
+      { w: "signature", m: "特征、标记（此处指化学特征）" },
+      { w: "atmosphere", m: "大气" },
+      { w: "distant", m: "遥远的" }
     ],
     grammar: [
-      "Instead of + 动名词：表示「而不是做某事」后接 V-ing。",
-      "that teaches itself to walk 为定语从句修饰 a small robot。",
-      "could help machines adapt：help 后的宾语补足语用动词原形即 help sb do。"
-    ]
-  },
-  {
-    tag: "CULTURE",
-    title: "Why Cities Are Planting More Trees",
-    en: "More cities are adding trees to their streets. Studies show that green spaces lower stress and cool the air. Local governments hope that over time these changes will make urban life healthier for everyone.",
-    zh: "越来越多城市在街道上种树。研究表明绿地能缓解压力、降低气温。地方政府希望随着时间推移这些变化能让每个人的城市生活更健康。",
-    vocab: [
-      { w: "green spaces", m: "绿地" }, { w: "lower stress", m: "缓解压力" },
-      { w: "urban", m: "城市的" }, { w: "over time", m: "随着时间推移" }
+      "Instead, scientists detected ... —— instead 作副词置首，表「相反 / 取而代之」，引出与上文不同的做法。",
+      "called Beta Pictoris d —— 过去分词短语作后置定语，修饰 the planet，相当于 which is called。",
+      "opening a fresh way to study ... —— 现在分词 opening 作结果状语，表主句动作带来的自然结果。"
     ],
-    grammar: [
-      "More ... are + V-ing：现在进行时表正在发生的变化趋势。",
-      "that green spaces lower stress：that 引导宾语从句作 show 的宾语。",
-      "hope that ... will make：hope 后接 that 从句从句用一般将来时。"
-    ]
-  },
-  {
-    tag: "TECH",
-    title: "Reading on Screens Changes How We Think",
-    en: "A new report suggests that people skim more when they read on phones. Because text feels endless readers often jump to the end. Experts argue that slow deep reading still matters for learning.",
-    zh: "一份新报告指出人们在手机上阅读时更容易略读。因为文字似乎无穷无尽读者常常直接跳到结尾。专家认为缓慢而深入的阅读对学习依然重要。",
-    vocab: [
-      { w: "skim", m: "略读" }, { w: "endless", m: "无穷的" },
-      { w: "deep reading", m: "深度阅读" }, { w: "argue", m: "主张、认为" }
-    ],
-    grammar: [
-      "suggests that ... skim：suggest 后的 that 从句用一般现在时表陈述。",
-      "Because + 句子：原因状语从句解释略读的原因。",
-      "still matters：still 强调「仍然」matters 等于 be important。"
-    ]
+    source: "NASA Science · 2026-07-15 · https://science.nasa.gov/missions/webb/nasas-webb-discovers-hidden-planet-in-famous-star-system/"
   },
   {
     tag: "ENVIRONMENT",
-    title: "Cities Turn Rooftops into Gardens",
-    en: "Some cities are turning empty rooftops into small gardens. Plants on roofs can cool buildings and clean the air. Supporters say green roofs also give people a quiet place to rest in busy cities.",
-    zh: "一些城市正把空置的屋顶改造成小花园。屋顶上的植物能给建筑降温并净化空气。支持者说绿色屋顶还能在繁忙都市里给人一处安静的休憩之地。",
+    title: "Ocean Plastic Threats Differ From Sea to Sea",
+    en: "A new analysis warns that plastic pollution does not threaten all oceans equally. The study, in Nature Sustainability, maps where risks are highest. The north-eastern Atlantic is a high-risk area for large animals eating plastic. The researchers say clean-up efforts should look beyond well-known 'garbage patches' and also protect coastlines, where entanglement risk is over 100 times higher than in the open ocean.",
+    zh: "一项新分析警告称，塑料污染对各海域的威胁并不相同。《自然·可持续发展》刊载的这项研究绘制了风险最高的区域。东北大西洋是大型动物误食塑料的高风险区。研究人员表示，清理行动不应只盯着知名的「垃圾带」，还应保护海岸线——那里的缠绕风险是开阔海域的 100 倍以上。",
     vocab: [
-      { w: "rooftop", m: "屋顶" }, { w: "green roof", m: "绿色屋顶" },
-      { w: "clean the air", m: "净化空气" }, { w: "supporter", m: "支持者" }
+      { w: "equally", m: "同样地、平等地" },
+      { w: "entanglement", m: "缠绕" },
+      { w: "coastline", m: "海岸线" },
+      { w: "beyond", m: "超越、在……之外" }
     ],
     grammar: [
-      "are turning ... into ...：现在进行时表持续进行的改造。",
-      "can cool buildings and clean the air：情态动词 can 后接动词原形并列。",
-      "give people a place to rest：to rest 为不定式作后置定语修饰 place。"
-    ]
+      "does not threaten ... equally —— 否定副词 not 与 equally 搭配，表「并非同等程度地」。",
+      "where risks are highest —— where 引导定语从句，修饰 oceans / areas，表地点。",
+      "look beyond ... —— beyond 作介词，后接名词，意为「超越……去看待」。"
+    ],
+    source: "European Commission (Science for Environment Policy) · 2026-06-25 · https://environment.ec.europa.eu/news/threats-marine-ecosystems-plastic-waste-vary-across-worlds-oceans-2026-06-25_en （研究：Zhang et al., Nature Sustainability 8, 1143-1153, 2025）"
   },
   {
-    tag: "HEALTH",
-    title: "A Short Daily Walk Helps the Heart",
-    en: "Doctors say a ten-minute walk each day can improve heart health. Walking is easy for most people and needs no special equipment. Small amounts of regular exercise are better than none at all.",
-    zh: "医生说每天步行十分钟就能改善心脏健康。对大多数人而言步行很容易且无需特殊器材。少量规律运动总好过完全不运动。",
+    tag: "ENERGY",
+    title: "Solar and Wind Outgenerate Gas for the First Time",
+    en: "For the first time ever, solar and wind produced more electricity than gas power worldwide. According to the think tank Ember, in April 2026 these two renewables supplied 22% of global electricity, while gas provided 20%. That means 531 terawatt-hours from solar and wind against 477 from gas. Analysts say strong growth in clean energy is reducing the need for imported gas.",
+    zh: "有史以来第一次，太阳能和风能发电总量超过了天然气发电。据智库 Ember 数据，2026 年 4 月这两种可再生能源提供了全球 22% 的电力，而天然气为 20%。这意味着太阳能和风能发电 531 太瓦时，高于天然气的 477 太瓦时。分析人士称，清洁能源的强劲增长正在降低对进口天然气的依赖。",
     vocab: [
-      { w: "improve", m: "改善" }, { w: "equipment", m: "器材、设备" },
-      { w: "regular", m: "规律的" }, { w: "none at all", m: "完全没有" }
+      { w: "outgenerate", m: "发电量超过" },
+      { w: "renewables", m: "可再生能源" },
+      { w: "terawatt-hour", m: "太瓦时（电量单位）" },
+      { w: "imported", m: "进口的" }
     ],
     grammar: [
-      "say (that) ... can improve：say 后接 that 宾语从句。",
-      "needs no special equipment：need 作实义动词否定用 no + 名词。",
-      "better than none at all：than 引导比较结构。"
-    ]
+      "For the first time ever, ... —— 状语短语置首，强调「有史以来首次」。",
+      "while gas provided 20% —— while 在此表对比，意为「而 / 与此同时」，连接两个并列事实。",
+      "reducing the need for ... —— 现在分词 reducing 作结果状语。"
+    ],
+    source: "pv-magazine Global (citing Ember) · 2026-05-22 · https://www.pv-magazine.com/2026/05/22/solar-and-wind-generated-more-electricity-globally-than-gas-power-for-the-first-time-in-april"
+  },
+  {
+    tag: "ENVIRONMENT",
+    title: "The Ocean's 'Missing' Plastic Has Gone Invisible",
+    en: "Scientists say the ocean's 'missing' plastic has not vanished — it has broken into invisible nanoplastics. A team from the Netherlands Institute for Sea Research sampled the North Atlantic and made the first real estimate: about 27 million tons of nanoplastics may float there. Because the particles are so tiny, they can enter living things, even human brain tissue. The researchers warn these particles are too small and widespread to ever be cleaned up.",
+    zh: "科学家表示，海洋中「消失」的塑料并没有凭空消失——而是碎裂成了看不见的纳米塑料。荷兰海洋研究所的团队在北大西洋取样，作出了首个真实估算：那里可能漂浮着约 2700 万吨纳米塑料。由于颗粒极微小，它们能进入生物体内，甚至人类脑组织。研究人员警告，这些颗粒太小、分布太广，永远无法被清理掉。",
+    vocab: [
+      { w: "vanished", m: "消失" },
+      { w: "invisible", m: "看不见的" },
+      { w: "particles", m: "颗粒、微粒" },
+      { w: "widespread", m: "广泛分布的" }
+    ],
+    grammar: [
+      "has not vanished — it has broken into ... —— 现在完成时强调动作对现在的影响。",
+      "so tiny (that) they can enter ... —— so ... that 结果状语从句，that 可省略。",
+      "too small ... to be cleaned up —— too ... to 结构，表「太……而不能」。"
+    ],
+    source: "ScienceDaily (Royal Netherlands Institute for Sea Research / NIOZ) · 2026-03-29 · https://www.sciencedaily.com/releases/2026/03/260329041649.htm"
   },
   {
     tag: "TECH",
-    title: "Apps That Teach You to Sleep Better",
-    en: "New phone apps promise to improve sleep. They track your bedtime and suggest small changes. Scientists warn that the results are mixed and good habits still matter most.",
-    zh: "新的手机应用承诺改善睡眠。它们记录你的就寝时间并给出微小调整建议。科学家提醒效果参差良好习惯依然最关键。",
+    title: "ChatGPT Adds a 'Study Mode' That Guides, Not Answers",
+    en: "OpenAI has launched 'Study Mode' for ChatGPT, available to Free, Plus, Pro and Team users since late July 2025. Instead of giving a full answer at once, the tool asks guiding questions and adjusts to the user's level. It breaks ideas into small steps and checks understanding with quizzes. OpenAI says the goal is to support real learning, not simply hand over solutions — a design shaped with teachers and learning-science researchers.",
+    zh: "OpenAI 为 ChatGPT 推出了「学习模式」，自 2025 年 7 月底起向 Free、Plus、Pro 与 Team 用户开放。这一工具并非一次性给出完整答案，而是提出引导性问题，并根据用户水平进行调整。它会把概念拆成小步骤，并用小测验检验理解。OpenAI 表示，目标是支持真正的学习，而非直接奉上答案——这一设计是与教师及学习科学研究者共同打造的。",
     vocab: [
-      { w: "promise", m: "承诺" }, { w: "track", m: "追踪、记录" },
-      { w: "mixed", m: "参差的、好坏不一的" }, { w: "matter most", m: "最关键" }
+      { w: "launched", m: "推出、发布" },
+      { w: "guiding", m: "引导的" },
+      { w: "adjusts", m: "调整、适应" },
+      { w: "quizzes", m: "小测验" }
     ],
     grammar: [
-      "promise to improve sleep：promise to do 承诺做某事。",
-      "that the results are mixed：that 引导宾语从句。",
-      "and good habits still matter most：matter 作系动词表「重要」。"
-    ]
+      "available to ... users since late July 2025 —— 形容词短语作后置定语；since + 时间点，与现在完成时呼应。",
+      "Instead of giving ... —— instead of + 动名词，表「而不是做某事」。",
+      "shaped with teachers ... —— 过去分词 shaped 作后置定语，相当于 which was shaped。"
+    ],
+    source: "OpenAI Help Center (ChatGPT release notes) · 2025-07-29 · https://help.openai.com/en/articles/6825453-chatgpt-release-notes （详见 openai.com/index/chatgpt-study-mode）"
   },
   {
-    tag: "SCIENCE",
-    title: "Old Forests Store More Carbon Than We Thought",
-    en: "A long study finds that older forests hold far more carbon than expected. Big old trees keep absorbing carbon for centuries. Protecting these forests may be one of the cheapest ways to slow climate change.",
-    zh: "一项长期研究发现古老森林储存的碳远超预期。高大古树能持续吸收碳数百年。保护这些森林或许是最廉价的减缓气候变化的方式之一。",
+    tag: "EDUCATION",
+    title: "An AI Tutor Beat the Classroom — But Only When Built to Teach",
+    en: "A 2025 randomized controlled trial in Scientific Reports compared a carefully designed AI tutor with in-class active learning. In Harvard's large introductory physics course, 194 students each learned one topic with the AI tutor at home and another in class. The AI tutor more than doubled learning gains in less time, with higher engagement. The key was pedagogy: the tutor revealed one step at a time and never gave the full answer, forcing students to reason.",
+    zh: "《科学报告》（Scientific Reports）2025 年的一项随机对照试验，将精心设计的 AI 家教与课堂主动学习进行比较。在哈佛大型基础物理课上，194 名学生分别用 AI 家教在家学一个主题、在课堂上学另一个。结果 AI 家教在更短时间内带来了两倍以上的学习收益，且参与度更高。关键在于教学法：该家教一次只揭示一步，绝不给出完整答案，迫使学生自己推理。",
     vocab: [
-      { w: "carbon", m: "碳" }, { w: "absorb", m: "吸收" },
-      { w: "century", m: "世纪" }, { w: "climate change", m: "气候变化" }
+      { w: "randomized", m: "随机的" },
+      { w: "introductory", m: "入门的、基础的" },
+      { w: "engagement", m: "参与度" },
+      { w: "reasoning", m: "推理" }
     ],
     grammar: [
-      "finds that ... hold：find 后接 that 宾语从句。",
-      "keep absorbing carbon：keep doing 持续做某事。",
-      "one of the + 最高级 + 复数名词：最……的之一。"
-    ]
+      "compared ... with ... —— 过去分词 compared 作后置定语，表「被比较的」。",
+      "each learned one topic ... and another ... —— each 作主语，后接并列谓语。",
+      "forcing students to reason —— 现在分词 forcing 作结果状语；force sb to do 迫使某人做某事。"
+    ],
+    source: "Scientific Reports (Nature Portfolio), 2025 — Kestin et al., randomized controlled trial (Harvard intro physics, 194 students). https://www.nature.com/articles/s41598-025-97652-6"
+  },
+  {
+    tag: "ENERGY",
+    title: "Electric Cars Hit a New Sales Record in 2025",
+    en: "Electric car sales reached a record in 2025, growing 20% to pass 20 million worldwide, according to the IEA's Global EV Outlook 2026. About one in four new cars sold was electric. China led with nearly 55% of its new cars electric, while Europe saw sales rise over 30%. The agency expects 23 million electric cars to be sold in 2026, close to 30% of all new cars.",
+    zh: "据国际能源署（IEA）《2026 全球电动汽车展望》报告，2025 年电动汽车销量创下纪录，增长 20%、突破 2000 万辆，全球每售出 4 辆新车就有 1 辆是电动。中国领跑，近 55% 的新车为电动；欧洲销量增长超 30%。该机构预计 2026 年电动汽车销量将达 2300 万辆，接近全部新车的 30%。",
+    vocab: [
+      { w: "record", m: "纪录" },
+      { w: "agency", m: "机构（此处指 IEA）" },
+      { w: "expects", m: "预计" },
+      { w: "nearly", m: "接近、几乎" }
+    ],
+    grammar: [
+      "growing 20% to pass 20 million —— 现在分词 growing 作伴随 / 结果状语。",
+      "with nearly 55% of its new cars electric —— with + 宾语 + 形容词 复合结构，作伴随状语。",
+      "expects 23 million ... to be sold —— expect + 宾语 + to do（被动）结构。"
+    ],
+    source: "IEA (Global EV Outlook 2026) · released 2026-05-20 · https://www.iea.org/reports/global-ev-outlook-2026/executive-summary"
   }
 ];
 
