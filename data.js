@@ -205,20 +205,20 @@ const NEWS = [
 
 // 名人名言（real, with 中文释义）
 const QUOTES = [
-  { q: "The only way to do great work is to love what you do.", a: "Steve Jobs", e: "成就伟大工作的唯一途径是热爱你所做的事。提醒我们热爱是持续的源动力。" },
-  { q: "Success is not final failure is not fatal.", a: "Winston Churchill", e: "成功非终点失败非末日。强调坚持与韧性比一时胜负更重要。" },
-  { q: "The beautiful thing about learning is that no one can take it away from you.", a: "B. B. King", e: "学习的美妙在于谁也无法把它从你身上夺走。知识一旦拥有便属于自己。" },
-  { q: "Well done is better than well said.", a: "Benjamin Franklin", e: "做得好胜过说得好。行动胜于空谈。" },
-  { q: "It does not matter how slowly you go as long as you do not stop.", a: "Confucius", e: "只要不停下脚步走得慢也无妨。重在持续不在速度。" },
-  { q: "Education is the most powerful weapon which you can use to change the world.", a: "Nelson Mandela", e: "教育是你能用来改变世界的最有力武器。凸显学习的力量。" },
-  { q: "A journey of a thousand miles begins with a single step.", a: "Lao Tzu", e: "千里之行始于足下。任何宏大目标都从当下的一步开始。" },
-  { q: "Believe you can and you are halfway there.", a: "Theodore Roosevelt", e: "相信自己能做到就已经成功了一半。自信是起点。" },
-  { q: "The only limit to our realization of tomorrow is our doubts of today.", a: "Franklin D. Roosevelt", e: "实现明天的唯一障碍是今天的疑虑。怀疑才是真正的边界。" },
-  { q: "In the middle of difficulty lies opportunity.", a: "Albert Einstein", e: "困难之中蕴藏机遇。换角度看困境即是转机。" },
-  { q: "What you get by achieving your goals is not as important as what you become.", a: "Zig Ziglar", e: "达成目标所得远不如你因此成为的人重要。成长胜于结果。" },
-  { q: "Happiness is not something ready made. It comes from your own actions.", a: "Dalai Lama", e: "幸福不是现成之物它源于你自己的行动。快乐靠经营。" },
-  { q: "The future belongs to those who believe in the beauty of their dreams.", a: "Eleanor Roosevelt", e: "未来属于相信梦想之美的人。信念塑造明天。" },
-  { q: "Do what you can with what you have where you are.", a: "Theodore Roosevelt", e: "立足当下尽你所能。行动不等待完美条件。" },
-  { q: "Knowledge is power.", a: "Francis Bacon", e: "知识就是力量。古典箴言强调认知的价值。" },
-  { q: "I have not failed. I have just found ten thousand ways that will not work.", a: "Thomas Edison", e: "我未曾失败只是找到了一万种行不通的方法。重新定义失败即接近成功。" }
+  { q: "It is a truth universally acknowledged, that a single man in possession of a good fortune, must be in want of a wife.", a: "《Pride and Prejudice》· Jane Austen", e: "《傲慢与偏见》开篇名句，以反讽笔调写尽婚恋与门第的世相。" },
+  { q: "Happy families are all alike; every unhappy family is unhappy in its own way.", a: "《Anna Karenina》· Leo Tolstoy", e: "《安娜·卡列尼娜》题首，托尔斯泰以一语定调全书的悲剧母题。" },
+  { q: "It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness.", a: "《A Tale of Two Cities》· Charles Dickens", e: "《双城记》开篇，以矛盾修辞写尽时代的割裂与动荡。" },
+  { q: "So we beat on, boats against the current, borne back ceaselessly into the past.", a: "《The Great Gatsby》· F. Scott Fitzgerald", e: "《了不起的盖茨比》结尾，喻示人与时间、与梦想的徒劳搏斗。" },
+  { q: "All we have to decide is what to do with the time that is given us.", a: "《The Lord of the Rings》· J. R. R. Tolkien", e: "《魔戒》中甘道夫之语，强调在既定命运中主动抉择的重量。" },
+  { q: "Not all those who wander are lost.", a: "《The Lord of the Rings》· J. R. R. Tolkien", e: "《魔戒》诗句，流浪未必迷失，暗喻探索自有其方向。" },
+  { q: "It does not do to dwell on dreams and forget to live.", a: "《Harry Potter and the Philosopher's Stone》· J. K. Rowling", e: "《哈利·波特与魔法石》中邓布利多劝诫：梦想要落地于生活。" },
+  { q: "Whatever our souls are made of, his and mine are the same.", a: "《Wuthering Heights》· Emily Brontë", e: "《呼啸山庄》凯瑟琳之语，写尽灵魂同源的炽烈爱恋。" },
+  { q: "We are all in the gutter, but some of us are looking at the stars.", a: "《Lady Windermere's Fan》· Oscar Wilde", e: "王尔德剧作台词：于泥淖中仍仰望星光，是为浪漫与尊严。" },
+  { q: "The world breaks everyone, and afterward many are strong at the broken places.", a: "《A Farewell to Arms》· Ernest Hemingway", e: "《永别了，武器》写创伤与重建，苍凉而坚韧。" },
+  { q: "Tomorrow is always fresh, with no mistakes in it yet.", a: "《Anne of Green Gables》· L. M. Montgomery", e: "《绿山墙的安妮》之语，把每个清晨都当作重新开始的机会。" },
+  { q: "I am no bird; and no net ensnares me: I am a free human being with an independent will.", a: "《Jane Eyre》· Charlotte Brontë", e: "《简·爱》简的自白，宣告人格独立与不可囚禁的自由。" },
+  { q: "There is no greater agony than bearing an untold story inside you.", a: "《I Know Why the Caged Bird Sings》· Maya Angelou", e: "安吉罗自传名句，道出未被讲述的故事之于心灵的重负。" },
+  { q: "And, when you want something, all the universe conspires in helping you to achieve it.", a: "《The Alchemist》· Paulo Coelho", e: "《牧羊少年奇幻之旅》核心句：信念会引来同向的合力。" },
+  { q: "I took a deep breath and listened to the old brag of my heart: I am, I am, I am.", a: "《The Bell Jar》· Sylvia Plath", e: "《钟形罩》结尾，普拉斯以心跳重申「我存在」的倔强。" },
+  { q: "We are such stuff as dreams are made on, and our little life is rounded with a sleep.", a: "《The Tempest》· William Shakespeare", e: "莎士比亚《暴风雨》台词，叹人生如梦如戏，终归于长眠。" }
 ];
