@@ -94,8 +94,27 @@
             <input id="mUrl" class="input" placeholder="https://... 留空可仅用本地文件" />
             <label>本地文件（优先于链接）</label>
             <input id="mFile" type="file" accept="audio/*,video/*" class="input" />
-            <label>字幕（每行：开始秒,结束秒,英文,中文；可留空）</label>
+            <label>字幕（每行：开始秒,结束秒,英文,中文；可留空，也可用下方 AI 自动生成）</label>
             <textarea id="mTranscript" class="input" rows="5" placeholder="0,3,Hello world,你好世界&#10;3,6,How are you,你好吗"></textarea>
+
+            <div class="ai-box">
+              <div class="ai-box-head">
+                <span class="ai-icon">🎙</span>
+                <span class="ai-title">AI 自动生成字幕</span>
+                <span class="ai-badge">浏览器本地运行 · 文件不出本机</span>
+              </div>
+              <p class="ai-desc">选择本地音频/视频后，用 Whisper 在浏览器内识别语音、自动切分时间戳并生成英文台词；可一并翻译为中文。无需后端，首次会下载约 70MB 模型，请耐心等待。</p>
+              <div class="ai-row">
+                <button class="btn gold small" id="aiGenBtn" disabled>自动生成字幕</button>
+                <label class="ai-check"><input type="checkbox" id="aiTranslate" checked /> 同时翻译为中文</label>
+                <span class="ai-need" id="aiNeed">请先选择本地文件</span>
+              </div>
+              <div class="ai-progress" id="aiProgressWrap" hidden>
+                <div class="ai-bar"><div class="ai-bar-fill" id="aiBar"></div></div>
+                <div class="ai-status" id="aiStatus"></div>
+              </div>
+            </div>
+
             <div class="modal-actions">
               <button class="btn ghost" id="mCancel">取消</button>
               <button class="btn gold" id="mSave">保存</button>
