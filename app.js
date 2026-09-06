@@ -111,12 +111,18 @@ $('#mSave').addEventListener('click', () => {
 /* ===================== AI 自动生成字幕（浏览器端 Whisper） ===================== */
 const aiGenBtn = $('#aiGenBtn'), aiTranslate = $('#aiTranslate'), aiNeed = $('#aiNeed');
 const aiProgressWrap = $('#aiProgressWrap'), aiBar = $('#aiBar'), aiStatus = $('#aiStatus');
-const mFile = $('#mFile'), mTranscript = $('#mTranscript'), mTitle = $('#mTitle');
+const mFile = $('#mFile'), mTranscript = $('#mTranscript'), mTitle = $('#mTitle'), mUrl = $('#mUrl');
 let aiBusy = false;
 
+const BACKEND_PLACEHOLDER = 'https://your-space.hf.space';
+let BACKEND_URL = (LS.get('el_backend', '') || '').trim() || BACKEND_PLACEHOLDER;
+
+function aiHasSource() {
+  return (mFile.files && mFile.files[0]) || (mUrl.value && mUrl.value.trim());
+}
 function aiReset() {
   aiBusy = false;
-  const has = mFile.files && mFile.files[0];
+  const has = aiHasSource();
   aiGenBtn.disabled = !has;
   aiNeed.style.display = has ? 'none' : 'inline';
   aiProgressWrap.hidden = true;
@@ -128,7 +134,7 @@ function r2(n) { return Math.round(n * 100) / 100; }
 
 mFile.addEventListener('change', () => {
   if (aiBusy) return;
-  const has = mFile.files && mFile.files[0];
+  const has = aiHasSource();
   aiGenBtn.disabled = !has;
   aiNeed.style.display = has ? 'none' : 'inline';
 });
@@ -145,8 +151,27 @@ async function translateEn2Zh(text) {
 }
 
 aiGenBtn.addEventListener('click', async () => {
-  const file = mFile.files && mFile.files[0];
-  if (!file || aiBusy) return;
+  if (aiBusy) return;
+  let file = mFile.files && mFile.files[0];
+  let fallbackName = '';
+  if (!file) {
+    const remote = (mUrl.value || '').trim();
+    if (!remote) { alert('请先选择本地文件，或在“媒体链接”填入地址后再生成字幕'); return; }
+    aiBusy = true; aiGenBtn.disabled = true;
+    aiProgressWrap.hidden = false; aiBar.style.width = '0%';
+    aiSet('正在下载远程音频…');
+    try {
+      const resp = await fetch(remote);
+      if (!resp.ok) throw new Error('远程音频下载失败（HTTP ' + resp.status + '）');
+      const blob = await resp.blob();
+      fallbackName = (remote.split('/').pop().split('?')[0] || 'remote') + '.mp3';
+      file = new File([blob], fallbackName, { type: blob.type || 'audio/mpeg' });
+    } catch (e) {
+      aiBusy = false; aiGenBtn.disabled = false;
+      aiSet('出错了：' + (e && e.message ? e.message : e));
+      return;
+    }
+  }
   aiBusy = true; aiGenBtn.disabled = true;
   aiProgressWrap.hidden = false; aiBar.style.width = '0%';
   aiSet('正在加载语音识别引擎…');
@@ -198,8 +223,48 @@ aiGenBtn.addEventListener('click', async () => {
     aiSet('出错了：' + (err && err.message ? err.message : err) + '（可重试，或手动填写字幕）');
   } finally {
     aiBusy = false;
-    aiGenBtn.disabled = !(mFile.files && mFile.files[0]);
+    aiGenBtn.disabled = !aiHasSource();
   }
+});
+
+/* ===================== 外链 / YouTube 云端取音轨+字幕 ===================== */
+$('#extBackendSave').addEventListener('click', () => {
+  const v = $('#extBackend').value.trim();
+  if (!/^https?:\/\//.test(v)) { alert('请填写完整的后端地址（以 http(s):// 开头）'); return; }
+  LS.set('el_backend', v); BACKEND_URL = v;
+  $('#extStatus').textContent = '✓ 已保存后端地址：' + v;
+});
+$('#extFetch').addEventListener('click', async () => {
+  const url = $('#extUrl').value.trim();
+  if (!url) { alert('请粘贴媒体链接'); return; }
+  const backend = (LS.get('el_backend', '') || '').trim() || BACKEND_PLACEHOLDER;
+  if (!/^https?:\/\//.test(backend) || backend.includes('your-space')) {
+    alert('请先在上方保存你的 Hugging Face Space 后端地址'); return;
+  }
+  $('#extStatus').textContent = '正在请求后端取音轨与字幕…';
+  try {
+    const r = await fetch(backend.replace(/\/$/, '') + '/api/process', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url, lang: 'en', whisper: false })
+    });
+    const d = await r.json().catch(() => ({}));
+    if (!r.ok || !d.ok) throw new Error(d.detail || ('后端返回 ' + r.status));
+    $('#mUrl').value = d.audio_url || '';
+    if (d.title && !$('#mTitle').value.trim()) $('#mTitle').value = d.title;
+    if (Array.isArray(d.transcript) && d.transcript.length) {
+      $('#mTranscript').value = d.transcript.map(t => `${t[0]},${t[1]},${t[2]},${t[3] || ''}`).join('\n');
+      $('#extStatus').textContent = `✓ 已取得音轨与 ${d.transcript.length} 条原生字幕，点击【保存】添加到听力列表。`;
+    } else {
+      $('#extStatus').textContent = '✓ 已取得音轨；该链接无原生字幕，可点【自动生成字幕】用本机 Whisper 生成（需先填好媒体链接）。';
+    }
+  } catch (e) {
+    $('#extStatus').textContent = '出错了：' + (e && e.message ? e.message : e);
+  }
+});
+// 弹层打开时同步已保存的后端地址
+$('#addMaterialBtn').addEventListener('click', () => {
+  $('#extBackend').value = (LS.get('el_backend', '') || '').trim();
 });
 
 /* ===================== 每日俚语 ===================== */
