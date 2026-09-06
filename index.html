@@ -118,13 +118,29 @@
               </div>
             </div>
 
+            <div class="ai-box yt-box">
+              <div class="ai-box-head">
+                <span class="ai-icon">💻</span>
+                <span class="ai-title">从 YouTube 导入（本地免费）</span>
+                <span class="ai-badge">零成本 · 推荐</span>
+              </div>
+              <p class="ai-desc">在本机终端运行一键脚本，下载音频+字幕并翻译，再把产物上传到此处。无需付费、无需后端。</p>
+              <ol class="yt-steps">
+                <li>安装依赖：<code>brew install ffmpeg</code> 与 <code>pip3 install -U yt-dlp</code></li>
+                <li>运行：<code>./lumen-dl "&lt;YouTube链接&gt;"</code>（自动下载并翻译字幕）</li>
+                <li>产物在 <code>lumen-local/downloads/&lt;id&gt;/</code>：含 <code>.mp3</code> 与 <code>transcript.txt</code></li>
+                <li>回到本弹层：<b>本地文件</b>选 <code>.mp3</code>，<b>字幕</b>粘贴 <code>transcript.txt</code> 内容，保存</li>
+              </ol>
+              <p class="ai-desc">没有原生字幕？先不填字幕框保存素材，再在播放器点「AI 自动生成字幕」用本机 Whisper 识别。</p>
+            </div>
+
             <div class="ext-box">
               <div class="ai-box-head">
                 <span class="ai-icon">🔗</span>
                 <span class="ai-title">外链 / YouTube 一键取音轨+字幕</span>
-                <span class="ai-badge">云端后端处理</span>
+                <span class="ai-badge">可选 · 需自托管后端</span>
               </div>
-              <p class="ai-desc">粘贴 YouTube 或支持媒体的链接，后端自动取音轨与原生字幕，并填到下方标题与字幕框。后端地址请先保存（默认占位请改成你的 Hugging Face Space 地址）。</p>
+              <p class="ai-desc">如你有自托管的取流后端（免费托管不可用：Hugging Face 的 Docker/Gradio 为付费），可在此粘贴后端地址并一键取音轨+字幕。无自托管后端时，请使用上方「从 YouTube 导入（本地免费）」。</p>
               <label>后端地址（Hugging Face Space URL）</label>
               <div class="ai-row">
                 <input id="extBackend" class="input" placeholder="https://your-space.hf.space" style="flex:1" />
