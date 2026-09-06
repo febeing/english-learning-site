@@ -83,7 +83,10 @@ $('#clearLoop').addEventListener('click', () => { loopA = loopB = null; $$('.tr-
 
 /* 添加素材弹层 */
 const modal = $('#materialModal');
-$('#addMaterialBtn').addEventListener('click', () => modal.hidden = false);
+$('#addMaterialBtn').addEventListener('click', () => {
+  modal.hidden = false;
+  aiReset();
+});
 $('#mCancel').addEventListener('click', () => modal.hidden = true);
 $('#mSave').addEventListener('click', () => {
   const title = $('#mTitle').value.trim(); if (!title) { alert('请填写标题'); return; }
@@ -102,6 +105,100 @@ $('#mSave').addEventListener('click', () => {
   renderMaterialSelect();
   $('#materialSelect').value = materials.length - 1;
   loadMaterial(materials.length - 1);
+});
+
+/* ===================== AI 自动生成字幕（浏览器端 Whisper） ===================== */
+const aiGenBtn = $('#aiGenBtn'), aiTranslate = $('#aiTranslate'), aiNeed = $('#aiNeed');
+const aiProgressWrap = $('#aiProgressWrap'), aiBar = $('#aiBar'), aiStatus = $('#aiStatus');
+const mFile = $('#mFile'), mTranscript = $('#mTranscript'), mTitle = $('#mTitle');
+let aiBusy = false;
+
+function aiReset() {
+  aiBusy = false;
+  const has = mFile.files && mFile.files[0];
+  aiGenBtn.disabled = !has;
+  aiNeed.style.display = has ? 'none' : 'inline';
+  aiProgressWrap.hidden = true;
+  aiBar.style.width = '0%';
+  aiStatus.textContent = '';
+}
+function aiSet(t) { aiStatus.textContent = t; }
+function r2(n) { return Math.round(n * 100) / 100; }
+
+mFile.addEventListener('change', () => {
+  if (aiBusy) return;
+  const has = mFile.files && mFile.files[0];
+  aiGenBtn.disabled = !has;
+  aiNeed.style.display = has ? 'none' : 'inline';
+});
+
+async function translateEn2Zh(text) {
+  try {
+    const u = 'https://api.mymemory.translated.net/get?q=' + encodeURIComponent(text) + '&langpair=en|zh-CN';
+    const r = await fetch(u);
+    const j = await r.json();
+    const t = j && j.responseData && j.responseData.translatedText;
+    if (!t || /MYMEMORY WARNING/i.test(t)) return '';
+    return t.replace(/&#39;/g, "'").replace(/&quot;/g, '"');
+  } catch { return ''; }
+}
+
+aiGenBtn.addEventListener('click', async () => {
+  const file = mFile.files && mFile.files[0];
+  if (!file || aiBusy) return;
+  aiBusy = true; aiGenBtn.disabled = true;
+  aiProgressWrap.hidden = false; aiBar.style.width = '0%';
+  aiSet('正在加载语音识别引擎…');
+  try {
+    const { pipeline, env } = await import('https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.5.2');
+    env.allowLocalModels = false;
+    const device = (typeof navigator !== 'undefined' && navigator.gpu) ? 'webgpu' : 'wasm';
+    const transcriber = await pipeline('automatic-speech-recognition', 'Xenova/whisper-base', {
+      device,
+      dtype: device === 'webgpu' ? 'fp32' : 'q8',
+      progress_callback: p => {
+        if (p.status === 'progress' && p.file) {
+          aiBar.style.width = Math.round(p.progress || 0) + '%';
+          aiSet(`下载模型 ${p.file}：${Math.round(p.progress || 0)}%`);
+        } else if (p.status === 'ready') {
+          aiSet('模型已就绪，开始识别语音…');
+        }
+      }
+    });
+    aiSet('模型已加载，正在转写音频…');
+    const blobUrl = URL.createObjectURL(file);
+    const out = await transcriber(blobUrl, {
+      chunk_length_s: 30,
+      stride_length_s: 5,
+      language: 'english',
+      task: 'transcribe',
+      return_timestamps: true,
+    });
+    URL.revokeObjectURL(blobUrl);
+    const chunks = (out.chunks || []).filter(c => Array.isArray(c.timestamp) && c.timestamp[1] != null);
+    if (!chunks.length) throw new Error('未能识别出字幕，请换一段清晰音频重试。');
+    let lines = chunks.map(c => {
+      const [s, e] = c.timestamp;
+      return [r2(s), r2(e), (c.text || '').trim(), ''];
+    });
+    if (aiTranslate.checked) {
+      for (let i = 0; i < lines.length; i++) {
+        lines[i][3] = await translateEn2Zh(lines[i][2]);
+        aiBar.style.width = Math.round((i + 1) / lines.length * 100) + '%';
+        aiSet(`翻译中 ${i + 1}/${lines.length}`);
+      }
+    }
+    mTranscript.value = lines.map(l => `${l[0]},${l[1]},${l[2]},${l[3]}`).join('\n');
+    if (!mTitle.value.trim()) mTitle.value = file.name.replace(/\.[^.]+$/, '');
+    aiBar.style.width = '100%';
+    aiSet(`✓ 已生成 ${lines.length} 条字幕，点击【保存】即可添加到听力列表。`);
+  } catch (err) {
+    console.error(err);
+    aiSet('出错了：' + (err && err.message ? err.message : err) + '（可重试，或手动填写字幕）');
+  } finally {
+    aiBusy = false;
+    aiGenBtn.disabled = !(mFile.files && mFile.files[0]);
+  }
 });
 
 /* ===================== 每日俚语 ===================== */
